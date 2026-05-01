@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VeriVoto</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #eef2f7;
+    text-align: center;
+    padding: 20px;
+}
+
+h1 {
+    color: #2c3e50;
+}
+
+.container {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 500px;
+    margin: auto;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+textarea {
+    width: 100%;
+    height: 120px;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+button {
+    margin-top: 15px;
+    padding: 10px;
+    width: 100%;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.resultado {
+    margin-top: 20px;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.explicacion {
+    margin-top: 10px;
+}
+
+.madre {
+    margin-top: 30px;
+    background: #ffe6ea;
+    padding: 15px;
+    border-radius: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>🗳️ VeriVoto</h1>
+    <p>Verifica información política</p>
+
+    <textarea id="texto" placeholder="Pega aquí la información..."></textarea>
+    <button onclick="verificar()">Verificar</button>
+
+    <div class="resultado" id="resultado"></div>
+    <div class="explicacion" id="explicacion"></div>
+</div>
+
+<div class="container madre">
+    <h2>💐 Día de la Madre</h2>
+    <p>Informarnos bien también es una forma de cuidar a quienes más queremos 💖</p>
+</div>
+
+<script>
+function verificar() {
+    let texto = document.getElementById("texto").value.toLowerCase().trim();
+    let resultado = document.getElementById("resultado");
+    let explicacion = document.getElementById("explicacion");
+
+    if (texto.length < 10) {
+        resultado.innerHTML = "⚪ INSUFICIENTE";
+        resultado.style.color = "gray";
+        explicacion.innerHTML = "El texto es muy corto o no se puede verificar.";
+        return;
+    }
+
+    let falso = 0;
+    let dudoso = 0;
+
+    if (texto.includes("urgente") || texto.includes("compártelo") || texto.includes("última hora")) {
+        falso++;
+    }
+
+    if (texto.includes("dicen que") || texto.includes("no confirmado") || texto.includes("al parecer")) {
+        dudoso++;
+    }
+
+    if (!texto.includes("fuente") && !texto.includes("según")) {
+        dudoso++;
+    }
+
+    if (falso >= 1) {
+        resultado.innerHTML = "🔴 FALSO";
+        resultado.style.color = "red";
+        explicacion.innerHTML = "Lenguaje alarmista o típico de desinformación.";
+    } else if (dudoso >= 1) {
+        resultado.innerHTML = "🟡 DUDOSO";
+        resultado.style.color = "orange";
+        explicacion.innerHTML = "No hay fuentes claras. Verifica en medios confiables.";
+    } else {
+        resultado.innerHTML = "🟢 POSIBLEMENTE VERDADERO";
+        resultado.style.color = "green";
+        explicacion.innerHTML = "No presenta señales claras de falsedad, pero confirma en fuentes oficiales.";
+    }
+}
+</script>
+
+</body>
+</html>
